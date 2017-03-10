@@ -9,9 +9,9 @@ authRoute.post("/signup", function (req, res) {
         email: req.body.email
     }, function (err, existingUser) {
         if (err) return res.status(500).send(err);
-        if (existingUser.length) return res.send({
+        if (existingUser.length) return res.status(403).send({
             success: false,
-            message: "user already exists!"
+            message: "That user already exists!"
         });
         var newUser = new User(req.body);
         newUser.save(function (err, userObj) {
@@ -19,14 +19,13 @@ authRoute.post("/signup", function (req, res) {
             var token = jwt.sign(userObj.toObject(), config.secret, {
                 expiresIn: "24h"
             });
-            res.send({
+            res.status(200).send({
                 token: token,
                 user: userObj.withoutPassword(),
                 message: "Successfully created new user",
                 success: true
             });
         });
-
     });
 });
 authRoute.post("/login", function (req, res) {
@@ -43,7 +42,7 @@ authRoute.post("/login", function (req, res) {
         } else if (user) {
 
             user.checkPassword(req.body.password, function (err, match) {
-                if (err) throw (err);
+                if (err) return res.status(500).send(err);
                 if (!match) {
                     return res.status(401).send({
                         success: false,
@@ -53,7 +52,7 @@ authRoute.post("/login", function (req, res) {
                     var token = jwt.sign(user.toObject(), config.secret, {
                         expiresIn: "24h"
                     });
-                     res.send({
+                     return res.status(200).send({
                         token: token,
                         user: user.withoutPassword(),
                         success: true,
