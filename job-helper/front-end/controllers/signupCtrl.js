@@ -4,7 +4,11 @@ angular.module("jobHelper")
         $scope.signup = function (user) {
             userService.signup(user)
                 .then(function (response) {
-                    $scope.message = response.message;
+                    if (response.status >= 200 && response.status < 300) {
+                        $location.path("/listings");
+                    } else {
+                        $scope.message = response.message;
+                    }
                 });
         }
 }]);

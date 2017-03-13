@@ -9,6 +9,7 @@ UPDATES:
 TODO:
 -add autoscroll functionality
 -fix search bar; make it filter out only the not-applied results
+-add profile settings page
 
 RESOURCES:
 

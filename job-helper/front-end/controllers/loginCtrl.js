@@ -3,9 +3,10 @@ angular.module("jobHelper")
     $scope.login = function(user){
         userService.login(user)
         .then(function(response){
-            if(response.status <200 && response.status > 299){
+            console.log(response);
+            if(response.status > 200 && response.status < 299){
             $location.path("/listings");
-            } else{
+            } else {
             console.log(response);
             $scope.message = response.message;
             }
