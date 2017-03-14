@@ -1,0 +1,138 @@
+<div ng-controller="listingCtrl">
+
+    <div class="search-bar">
+        <input id="search-bar" class="form-control" type="text" ng-model="search.$" placeholder="Filter">
+        <a class="glyphicon glyphicon-search" href="#!/listings"></a>
+        <label id="filter-bar" for="filterByApplied">
+             Show Applied Only<input name="filterByApplied" type="checkbox" ng-model="search.listingStatus.applied"></label>
+    </div>
+    <hr>
+    <div ng-repeat="listing in listings | filter:search track by listing._id"id="list-{{ ::listing._id }}">
+        <panel>
+            <div class="panel-header">
+                <div class="thumbnail">
+                    <div class="panel-titles">
+                        <div class="panel-titles-item"><h2>{{listing.companyName}}</h2></div>
+                        <div class="panel-titles-item"><h4>{{listing.position}}</h4></div>
+                        <div class="panel-edits">
+                            <a id="view-btn" class="btn btn-small btn-primary" ng-click="isCollapsed = !isCollapsed">View</a>
+                            <a class="btn btn-info glyphicon glyphicon-pencil" ng-click="editListing(listing); listing.editting=!listing.editting"></a>
+                            <a class="btn btn-danger glyphicon glyphicon-trash" ng-click="removeListing(listing)"></a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body" uib-collapse="isCollapsed" ng-hide="listing.editting">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                            <div class="row panel-info">
+                                <div class="col-sm-12 applied-info">
+                                    <a href="http://{{listing.url}}" target="_blank">http://{{listing.url}}</a>
+                                    <button ng-show="listing.listingStatus.applied" class="glyphicon glyphicon-ok btn btn-success" ng-click="toggleApplied(listing)"> Applied</button>
+                                    <button ng-hide="listing.listingStatus.applied" class="glyphicon glyphicon-remove btn btn-warning" ng-click="toggleApplied(listing)"> Applied</button>
+                                    <button ng-show="listing.listingStatus.responded" class="glyphicon glyphicon-ok btn btn-success" ng-click="toggleResponded(listing)"> Responded</button>
+                                    <button ng-hide="listing.listingStatus.responded" class="glyphicon glyphicon-remove btn btn-warning" ng-click="toggleResponded(listing)"> Responded</button>
+                                </div>
+                                <div class="job-info col-sm-12">
+
+                                    <label>Salary Posted:</label>
+                                    <p>{{listing.salary}}</p>
+                                    <label>Salary Offered:</label>
+                                    <p>{{listing.listingStatus.offerAmt}}</p>
+
+                                </div>
+                                <div class="recruiter-info col-sm-12">
+                                    <label>Recruiter Name:</label>
+                                    <p>{{listing.recruiterInfo.name}}</p>
+                                    <label>Email:</label>
+                                    <p>{{listing.recruiterInfo.email}}</p>
+                                    <label>Phone:</label>
+                                    <p>{{listing.recruiterInfo.phone}}</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-xs-8 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 description-info">
+                            <hr>
+                            <label>Description:</label>
+                            <p>{{listing.description}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </panel>
+
+
+        <panel>
+
+            <div ng-show="listing.editting">
+
+                <form id="edit-form" name="editForm" class="row">
+                    <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="companyName">Company Name:</label>
+                                    <input name="companyName" ng-model="listing.companyName" class="form-control" type="text" placeholder="{{listing.companyName}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="position">Position:</label>
+                                    <input name="position" ng-model="listing.position" class="form-control" type="text" placeholder="{{listing.position}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="url">URL:</label>
+                                    <input name="url" ng-model="listing.url" class="form-control" type="text" placeholder="http://">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+
+                                    <div class="form-group col-md-6">
+                                        <label for="salary">Salary Posted:</label>
+                                        <input name="salary" ng-model="listing.salary" class="form-control" type="text" placeholder="Salary Posted">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="offer">Offers:</label>
+                                        <input name="offer" ng-model="listing.listingStatus.offerAmt" class="form-control" type="text" placeholder="Amount Offered">
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description:</label>
+                                    <textarea name="description" ng-model="listing.description" class="form-control" id="description" cols="30" rows="5" placeholder="Description"></textarea>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+                                <div class="form-group">
+                                    <label for="recruiterName">Recruiter Name:</label>
+                                    <input name="recruiterName" ng-model="listing.recruiterInfo.name" class="form-control" type="text" placeholder="Recruiter Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input name="email" ng-model="listing.recruiterInfo.email" class="form-control" type="email" placeholder="Recruiter Email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone:</label>
+                                    <input name="phone" ng-model="listing.recruiterInfo.phone" class="form-control" type="text" placeholder="Recruiter Phone Number">
+                                </div>
+                                <div class="form-group">
+                                    <a class="btn btn-info glyphicon glyphicon-pencil form-control" ng-click="editListing(listing); listing.editting=!listing.editting"> Done</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+
+
+        </panel>
+    </div>
+
+
+</div>

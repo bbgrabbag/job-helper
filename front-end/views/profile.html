@@ -1,0 +1,28 @@
+<div class="row" controller="profileCtrl">  
+    <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+
+        <form id="edit-profile-form"name="editProfileForm" novalidate>
+           <h3>Edit Profile</h3>
+            
+            <div class="form-group">
+                <input name="email"type="email" id="email" class="form-control" ng-model="user.email"placeholder="Change Email">
+            </div>
+
+            <div class="form-group">
+                <input name="password"type="password" id="password" class="form-control" ng-model="user.password"placeholder="Change Password (Must be at least 7 characters)">
+                <p ng-show="editProfileForm.password.$invalid && !editProfileForm.password.$pristine" class="help-block">Must be at least 7 characters</p>
+            </div>
+            <div class="form-group">
+                <input name="passwordRepeat"type="password" id="passwordRepeat" class="form-control" ng-model="passwordRepeat" placeholder="Repeat Password">
+                
+                <p class="help-block" ng-show="user.password!=passwordRepeat && !editProfileForm.passwordRepeat.$pristine">Passwords must match</p>
+                <span class="help-block" ng-show="message">{{message}}</span>
+            </div>
+            <div id="edit-profile-submit">
+               <a id="edit-submit-btn"ng-disabled="editProfileForm.$invalid"class="btn glyphicon glyphicon-plus" ng-click="editProfile(user)"></a> 
+                <a class="btn btn-danger glyphicon glyphicon-trash" ng-click="removeUser()"></a>
+                  
+            </div>
+        </form>
+    </div>
+</div>  
