@@ -1,1 +1,3 @@
-Contains all major projects for V School and clients
+JOB HELPER
+
+-Consolidate and track your job searches.
