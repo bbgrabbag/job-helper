@@ -5,7 +5,7 @@ var JobPosting = require("../models/jobPostings");
 postingRouter.route("/")
 .get(function(req,res){
     JobPosting.find({user: req.user._id},function(err, postings){
-        if(err) return res.status(500).send(err);
+        if(err) return res.status(401).send(err);
         res.send(postings);
     });
 })

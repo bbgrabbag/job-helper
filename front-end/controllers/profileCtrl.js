@@ -1,9 +1,18 @@
 angular.module("jobHelper")
-.controller("profileCtrl", ["$scope", "userService", function($scope, userService){
-    $scope.editProfile =function(user){
-        console.log(user,userService.user._id);
-    }
-    $scope.removeUser = function(){
-        console.log(userService.user);
-    }
+    .controller("profileCtrl", ["$scope","$location", "$http", "userService","tokenService", function ($scope,$location, $http, userService, tokenService) {
+        $scope.editProfile = function (user) {
+            userService.editProfile(user)
+            .then(function (response){
+                console.log(response);
+                $location.path("/home");
+            });
+        };
+        $scope.removeUser = function () {
+            userService.removeUser()
+            .then(function(response){
+                console.log(response);
+                userService.user = {};
+                $location.path("/home");
+            });
+        };
 }]);

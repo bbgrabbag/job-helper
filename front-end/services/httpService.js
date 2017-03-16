@@ -5,7 +5,7 @@ angular.module("jobHelper")
                 .then(function (posted) {
                     listingService.postings.push(posted.data);
                 }, function (posted) {
-                    console.log(posted.data);
+                    return posted.data;
                 });
         };
         this.getAllListings = function (url) {
@@ -13,7 +13,7 @@ angular.module("jobHelper")
                 .then(function (gotten) {
                     listingService.postings = gotten.data
                 }, function (gotten) {
-                    console.log(gotten.data);
+                    return gotten.data;
                 });
         };
 
@@ -53,7 +53,7 @@ angular.module("jobHelper")
                     console.log(response.data);
                 });
         };
-        this.updateListing = function(url, listing) {
+        this.updateListing = function (url, listing) {
             return $http.put(url, listing)
                 .then(function (response) {
                     for (var i = 0; i < listingService.postings.length; i++) {

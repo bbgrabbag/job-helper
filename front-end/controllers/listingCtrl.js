@@ -3,6 +3,7 @@ angular.module("jobHelper")
         httpService.getAllListings("http://localhost:8000/api/postings")
             .then(function (gotten) {
                 $scope.listings = listingService.postings;
+            console.log(gotten);
             });
         $scope.isCollapsed = true;
 

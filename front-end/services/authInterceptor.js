@@ -9,7 +9,7 @@ angular.module("jobHelper")
         return config;
     };
     this.responseError = function(response){
-        if(response.status===401){
+        if(response.status === 401){
             tokenService.removeToken();
             $location.path("/login");
         }

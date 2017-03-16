@@ -11,7 +11,7 @@ authRoute.post("/signup", function (req, res) {
         if (err) return res.status(500).send(err);
         if (existingUser.length) return res.status(403).send({
             success: false,
-            message: "That user already exists!"
+            statusText: "That user already exists!"
         });
         var newUser = new User(req.body);
         newUser.save(function (err, userObj) {
@@ -21,42 +21,43 @@ authRoute.post("/signup", function (req, res) {
             });
             res.status(200).send({
                 token: token,
-                user: userObj.withoutPassword(),
-                message: "Successfully created new user",
+                user: userObj.toObject(),
+                statusText: "Successfully created new user",
                 success: true
             });
         });
     });
 });
 authRoute.post("/login", function (req, res) {
-
     User.findOne({
         email: req.body.email
     }, function (err, user) {
-        if (err) res.status(500).send(err);
+        if (err) {
+            return res.status(500).send(err)
+        };
         if (!user) {
             return res.status(401).send({
                 success: false,
-                message: "User with the provided username was not found"
+                statusText: "User with the provided email was not found"
             });
         } else if (user) {
-
             user.checkPassword(req.body.password, function (err, match) {
-                if (err) return res.status(500).send(err);
+                if (err) throw (err);
+                
                 if (!match) {
                     return res.status(401).send({
                         success: false,
-                        message: "Incorrect password"
+                        statusText: "Incorrect password"
                     });
                 } else {
                     var token = jwt.sign(user.toObject(), config.secret, {
                         expiresIn: "24h"
                     });
-                     return res.status(200).send({
+                   return res.status(200).send({
                         token: token,
-                        user: user.withoutPassword(),
+                        user: user.toObject(),
                         success: true,
-                        message: "Here's your token!"
+                        statusText: "Here's your token!"
                     });
                 }
             });

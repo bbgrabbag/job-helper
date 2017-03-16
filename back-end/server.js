@@ -16,9 +16,9 @@ mongoose.connect(config.database, function(err){
 });
 
 app.use("/auth", require("./routes/auth"));
-app.use("/api", expressJwt({secret: config.secret}))
-
+app.use("/api", expressJwt({secret: config.secret}));
 app.use("/api/postings", require("./routes/jobPostings"));
+app.use("/api/profile", require("./routes/profile"));
 
 app.listen(port, function(){
     console.log("connected to" + " " + port);

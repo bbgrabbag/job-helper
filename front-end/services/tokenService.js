@@ -3,10 +3,10 @@ angular.module("jobHelper")
     this.storeToken = function(token){
         $localStorage.token = token;
     };
-    this.getToken = function(token){
+    this.getToken = function(){
         return $localStorage.token;
     };
-    this.removeToken = function(token){
+    this.removeToken = function(){
         delete $localStorage.token;
         delete $localStorage.user;
     }

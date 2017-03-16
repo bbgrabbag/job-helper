@@ -1,37 +1,59 @@
 angular.module("jobHelper")
-.service("userService", ["$http", "$localStorage", "$location", "tokenService", function ($http, $localStorage, $location, tokenService) {
+    .service("userService", ["$http", "$localStorage", "$location", "tokenService", function ($http, $localStorage, $location, tokenService) {
 
-    var self = this;
-    this.user = {};
+        var self = this;
+        this.user = {};
 
-    function successCallback (res) {
-        self.user = res.data.user;
-        $localStorage.user = self.user;
-        tokenService.storeToken(res.data.token);
-        return res
-    };
+        this.signup = function (user) {
+            return $http.post("/auth/signup", user)
+                .then(function(response){
+                tokenService.storeToken(response.data.token);
+            $localStorage.user = response.data.user;
+            self.user = $localStorage.user;
+                return response;
+            });
+        };
 
-    function errorCallback (res) {
-        return res.data;
-    };
+        this.login = function (user) {
+            return $http.post("/auth/login", user)
+                .then(function(response){
+                tokenService.storeToken(response.data.token);
+            $localStorage.user = response.data.user;
+            self.user = $localStorage.user;
+                return response;
+            });
+        };
 
-    this.signup = function (user) {
-        return $http.post("/auth/signup", user)
-            .then(successCallback, errorCallback)
-    };
-    
-    this.login = function (user) {
-        return $http.post("auth/login", user)
-            .then(successCallback, errorCallback)
-    };
-    
-    this.logout = function () {
-        tokenService.removeToken();
-        $location.path("/home");
-    };
+        this.logout = function () {
+            tokenService.removeToken();
+            $location.path("/home");
+        };
 
-    this.isAuthenticated = function () {
-        return !!tokenService.getToken();
-    };
+        this.editProfile = function (user) {
+            return $http.put("/api/profile/" + $localStorage.user._id, user)
+                .then(function (res) {
+                    console.log(res);
+                    self.user = res.data.user;
+                    $localStorage.user = self.user;
+                    return res.data
+                }, function (res) {
+                    return res.data;
+                });
+        };
+        this.removeUser = function () {
+            return $http.delete("/api/profile/" + $localStorage.user._id, $localStorage.user._id)
+                .then(function (res) {
+                    tokenService.removeToken();
+                    return res.data;
+
+                }, function (res) {
+                    return res.data
+                });
+
+        };
+
+        this.isAuthenticated = function () {
+            return !!tokenService.getToken();
+        };
 
 }]);

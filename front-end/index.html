@@ -19,7 +19,7 @@
                 
                     <a ng-hide="userService.isAuthenticated()"id="signup"href="#!/signup">Sign Up</a>
                     <a ng-hide="userService.isAuthenticated()"id="login"href="#!/login">Log In</a>
-                    <h5 ng-show="userService.isAuthenticated()"id="user-name">Welcome, {{userService.user.name||userName.name}}!</h5>
+                    <h5 ng-show="userService.isAuthenticated()"id="user-name">Welcome, {{userService.user.name||user.name}}!</h5>
                     <a ng-show="userService.isAuthenticated()"id="user-settings"ng-click="editProfile()"href="#!/profile">Edit Profile</a>
                     <a ng-show="userService.isAuthenticated()"id="logout"ng-click="logout()"href="#">Log Out</a>
             </div>
