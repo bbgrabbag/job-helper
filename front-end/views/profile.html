@@ -18,11 +18,14 @@
                 <p class="help-block" ng-show="user.password!=passwordRepeat && !editProfileForm.passwordRepeat.$pristine">Passwords must match</p>
                 <span class="help-block" ng-show="message">{{message}}</span>
             </div>
+            <p class="help-block"ng-show="statusTextPwd">{{statusTextPwd}}</p>
+            <p class="help-block"ng-show="statusTextEmail">{{statusTextEmail}}</p>
+            
             <div id="edit-profile-submit">
                <a id="edit-submit-btn"ng-disabled="editProfileForm.$invalid"class="btn glyphicon glyphicon-plus" ng-click="editProfile(user)"></a> 
-                <a class="btn btn-danger glyphicon glyphicon-trash" ng-click="removeUser()"></a>
-                  
+                <a class="btn btn-danger glyphicon glyphicon-trash" ng-click="removeUser()"></a> 
             </div>
+            
         </form>
     </div>
 </div>  

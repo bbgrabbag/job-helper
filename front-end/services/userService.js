@@ -29,17 +29,24 @@ angular.module("jobHelper")
             $location.path("/home");
         };
 
-        this.editProfile = function (user) {
-            return $http.put("/api/profile/" + $localStorage.user._id, user)
-                .then(function (res) {
-                    console.log(res);
-                    self.user = res.data.user;
-                    $localStorage.user = self.user;
-                    return res.data
-                }, function (res) {
-                    return res.data;
-                });
+        this.changePwd = function(user){
+            return $http.post("/api/profile/change-password/" + $localStorage.user._id, user)
+            .then(function(response){
+                return response.data;
+            }, function (response){
+                return response.data;
+            });
         };
+        this.changeEmail = function(user){
+            return $http.put("/api/profile/change-profile/" + $localStorage.user._id, user)
+            .then(function(response){
+                $localStorage.user.email = user.email;
+                return response.data;
+            }, function(response){
+                return response.data;
+            });
+        };
+        
         this.removeUser = function () {
             return $http.delete("/api/profile/remove-user/" + $localStorage.user._id, $localStorage.user._id)
                 .then(function (res) {

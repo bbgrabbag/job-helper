@@ -1,18 +1,27 @@
 angular.module("jobHelper")
-    .controller("profileCtrl", ["$scope","$location", "$http", "userService","tokenService", function ($scope,$location, $http, userService, tokenService) {
+    .controller("profileCtrl", ["$scope", "$location", "$http", "userService", "tokenService", function ($scope, $location, $http, userService, tokenService) {
+        $scope.statusTextPwd = "";
+        $scope.statusTextEmail = "";
+
         $scope.editProfile = function (user) {
-            userService.editProfile(user)
-            .then(function (response){
-                console.log(response);
-                $location.path("/home");
-            });
+            if (user.password) {
+                userService.changePwd(user)
+                    .then(function (response) {
+                        $scope.statusTextPwd = response.statusText;
+                    });
+            };
+
+            userService.changeEmail(user)
+                .then(function (response) {
+                    $scope.statusTextEmail = response.textStatus;
+                });
         };
         $scope.removeUser = function () {
             userService.removeUser()
-            .then(function(response){
-                console.log(response);
-                userService.user = {};
-                $location.path("/home");
-            });
+                .then(function (response) {
+                    console.log(response);
+                    userService.user = {};
+                    $location.path("/home");
+                });
         };
 }]);
