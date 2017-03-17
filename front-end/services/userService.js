@@ -41,7 +41,7 @@ angular.module("jobHelper")
                 });
         };
         this.removeUser = function () {
-            return $http.delete("/api/profile/" + $localStorage.user._id, $localStorage.user._id)
+            return $http.delete("/api/profile/remove-user/" + $localStorage.user._id, $localStorage.user._id)
                 .then(function (res) {
                     tokenService.removeToken();
                     return res.data;

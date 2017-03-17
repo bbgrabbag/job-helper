@@ -4,40 +4,50 @@ var jwt = require("jsonwebtoken");
 var config = require("../config");
 var User = require("../models/users");
 
-profileRoute.route("/:id")
+profileRoute.route("/remove-user/:id")
     .delete(function (req, res) {
-            User.findOneAndRemove({
-                    _id: req.params.id,
-                    user: req.user._id
-                }, function (err, user) {
-                    if (err) return res.status(500).send(err);
-                    return res.status(200).send({
-                        success: true,
-                        message: "User successfully deleted"
-                    });
-                });
-            })
-.put(function (req, res) {
-    User.findOne({
-        _id: req.params.id
-    }, function (err, user) {
-        if (err) return res.status(500).send(err);
-        console.log("user" + user.password);
-        console.log("req body" + req.body.password + req.body.email);
-        user.password = req.body.password;
-        user.email = req.body.email;
-        user.save(function (err, updatedUser) {
-            console.log(updatedUser);
+        User.findOneAndRemove({
+            _id: req.params.id
+        }, function (err, user) {
             if (err) return res.status(500).send(err);
-            return res.status(204).send({
+            return res.status(200).send({
                 success: true,
-                user: updatedUser.withoutPassword(),
-                message: "User updated successfully!"
+                statusText: user.name + " successfully deleted"
             });
         });
     });
-});
 
+profileRoute.route("/change-password/:id")
+    .post(function (req, res) {
+        User.findOne({
+            _id: req.params.id
+        }, function (err, user) {
+            if (err) return res.status(500).send(err);
+            user.password = req.body.password;
+            user.save(function (err, updatedPwd) {
+                if (err) return res.status(500).send(err);
+                return res.status(203).send({
+                    success: true,
+                    statusText: "Password successfully changed"
+                });
+            });
+        });
+    });
+profileRoute.route("/change-profile/:id")
+    .put(function (req, res) {
+        User.findOneAndUpdate({
+            _id: req.params.id
+        }, req.body, {
+            new: true
+        }, function (err, updatedUser) {
+            if (err) return res.status(500).send(err);
+            return res.status(203).send({
+                success: true,
+                textStatus: "User update successful",
+                user: updatedUser.withoutPassword()
+            });
+        });
+    });
 
 
 
