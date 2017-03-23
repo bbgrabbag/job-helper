@@ -16,12 +16,12 @@
                 <h1 id="main-title">Jerb.</h1>
             </div>
             <div id="user-auth" ng-controller="authCtrl">
-                
-                    <a ng-hide="userService.isAuthenticated()"id="signup"href="#!/signup">Sign Up</a>
-                    <a ng-hide="userService.isAuthenticated()"id="login"href="#!/login">Log In</a>
-                    <h5 ng-show="userService.isAuthenticated()"id="user-name">Welcome, {{userService.user.name||user.name}}!</h5>
-                    <a ng-show="userService.isAuthenticated()"id="user-settings"ng-click="editProfile()"href="#!/profile">Edit Profile</a>
-                    <a ng-show="userService.isAuthenticated()"id="logout"ng-click="logout()"href="#">Log Out</a>
+
+                <a ng-hide="userService.isAuthenticated()" id="signup" href="#!/signup">Sign Up</a>
+                <a ng-hide="userService.isAuthenticated()" id="login" href="#!/login">Log In</a>
+                <h5 ng-show="userService.isAuthenticated()" id="user-name">Welcome, <span ng-bind="userService.user.name||user.name"></span>!</h5>
+                <a ng-show="userService.isAuthenticated()" id="user-settings" ng-click="editProfile()" href="#!/profile" ng-cloak>Edit Profile</a>
+                <a ng-show="userService.isAuthenticated()" id="logout" ng-click="logout()" href="#" ng-cloak>Log Out</a>
             </div>
         </div>
 
@@ -46,14 +46,14 @@ glyphicon glyphicon-plus" href="#!/form"></a>
         </ul>
         <ng-view></ng-view>
     </div>
-<!--3rd party-->
+    <!--3rd party-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-route.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"></script>
-    
-<!--Main App-->
+
+    <!--Main App-->
     <script src="app.js"></script>
     <script src="controllers/listingCtrl.js"></script>
     <script src="controllers/userFormCtrl.js"></script>
@@ -67,6 +67,7 @@ glyphicon glyphicon-plus" href="#!/form"></a>
     <script src="services/userService.js"></script>
     <script src="services/authInterceptor.js"></script>
     <script src="directives/autoScroll.js"></script>
+    <script src="filters/search.js"></script>
 </body>
 
 </html>

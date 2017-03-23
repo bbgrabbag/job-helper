@@ -1,19 +1,31 @@
-<div ng-controller="listingCtrl">
+<div ng-controller="listingCtrl" ng-cloak>
 
     <div class="search-bar">
-        <input id="search-bar" class="form-control" type="text" ng-model="search.$" placeholder="Filter">
+        <input class="search-bar" class="form-control" type="text" ng-model="search" placeholder="Search">
         <a class="glyphicon glyphicon-search" href="#!/listings"></a>
-        <label id="filter-bar" for="filterByApplied">
-             Show Applied Only<input name="filterByApplied" type="checkbox" ng-model="search.listingStatus.applied"></label>
+    </div>
+    <div id="filter">
+        <label class="filter-bar" for="filterByApplied">
+              Applied <input name="filterByApplied" type="checkbox" ng-model="applied"></label>
+        <label class="filter-bar" for="filterByResponded">
+              Responded <input name="filterByResponded" type="checkbox" ng-model="responded"></label>
+        <label class="filter-bar" for="filterByResponded">
+              To Apply <input name="filterByNotApplied" type="checkbox" ng-model="noApplied"></label>
+        <label class="filter-bar" for="filterByResponded">
+              Response Pending<input name="filterByNotResponded" type="checkbox" ng-model="notResponded"></label>
     </div>
     <hr>
-    <div ng-repeat="listing in listings | filter:search track by listing._id"id="list-{{ ::listing._id }}">
+    <div ng-repeat="listing in listings | filter:search | isApplied: applied | isResponded: responded | isNotApplied: noApplied | isNotResponded: noResponded track by listing._id" id="job-listing">
         <panel>
             <div class="panel-header">
                 <div class="thumbnail">
                     <div class="panel-titles">
-                        <div class="panel-titles-item"><h2>{{listing.companyName}}</h2></div>
-                        <div class="panel-titles-item"><h4>{{listing.position}}</h4></div>
+                        <div class="panel-titles-item">
+                            <h2>{{listing.companyName}}</h2>
+                        </div>
+                        <div class="panel-titles-item">
+                            <h4>{{listing.position}}</h4>
+                        </div>
                         <div class="panel-edits">
                             <a id="view-btn" class="btn btn-small btn-primary" ng-click="isCollapsed = !isCollapsed">View</a>
                             <a class="btn btn-info glyphicon glyphicon-pencil" ng-click="editListing(listing); listing.editting=!listing.editting"></a>
@@ -133,7 +145,7 @@
 
         </panel>
     </div>
-    <div id="empty-listing" ng-show ="listings.length === 0">
+    <div id="empty-listing" ng-show="listings.length === 0">
         <h3 id="empty-listing-header">You haven't added any listings yet!</h3>
     </div>
 

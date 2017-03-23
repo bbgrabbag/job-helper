@@ -17,7 +17,13 @@ a:hover,
     text-decoration: none;
     text-shadow: 3px 3px #431515;
 }
-
+label{
+    font-weight: 200;
+    color: maroon;
+}
+h4, h2 {
+    font-weight: 400;
+}
 .signup-form {
     display: flex;
     flex-direction: column;
@@ -119,11 +125,17 @@ li {
 #user-auth a {
     border-left: 1px solid #FFFFFF;
     color: lightslategray;
-    margin-right: 25px;
+    margin-right: 15px;
+    margin-left: 15px;
     font-size: 16px;
+    font-weight: 200;
 }
 #user-name {
-    margin-right: 25px;
+    margin-right: 15px;
+    margin-left: 15px;
+    margin-top:7px;
+    font-size: 16px;
+    font-weight: 200;
 }
 
 #logo {
@@ -201,16 +213,23 @@ li {
 
 #search-bar {
     width: 30%;
-    display: inline-flex;
+    display: flex;
     flex-direction: row;
 }
-
-#filter-bar input {
+#filter{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.filter-bar input {
     margin-left: 10px;
 }
 
-#filter-bar {
+.filter-bar {
     margin-left: 15px;
+    color: maroon;
+    font-weight: 200;
 }
 
 .status {
@@ -299,4 +318,20 @@ li {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+@media (max-width: 440px){
+    #user-auth {
+    justify-content: space-between;
+}
+    #user-auth a {
+    margin-right: 4px;
+    margin-left: 4px;
+    font-size: 13px;
+}
+#user-name {
+    margin-right: 4px;
+    margin-left: 4px;
+    
+    font-size: 16px;
+}
 }

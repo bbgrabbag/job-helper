@@ -1,5 +1,5 @@
 angular.module("jobHelper")
-.controller("userFormCtrl", ["$scope","httpService","userService","$location", function($scope, httpService,userService, $location){
+.controller("userFormCtrl", ["$scope","httpService","userService","$location", function($scope, httpService,userService, $location, $anchorScroll){
     if(!userService.isAuthenticated())$location.path("/login");
     $scope.submitForm = function(isValid, newPosting){
         if(isValid){
@@ -8,6 +8,7 @@ angular.module("jobHelper")
                 $scope.newPosting = {};
             });
             $location.path("/listings");
+            
         }
     };
 }]);
